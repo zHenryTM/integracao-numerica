@@ -1,6 +1,6 @@
 #include "funcao_de_teste.c"
 
-loat integrar_trapezio(float a, float b, float n) {
+float integrar_trapezio(float a, float b, float n) {
     /* Esta função integra numericamente uma função f, definida em [a,b], com n
      * subintervalos de tamanho h, utilizando o Método do Trapézio Repetido */
      
