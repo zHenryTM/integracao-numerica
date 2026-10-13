@@ -18,14 +18,8 @@ float obter_m2(float a, float b) {
 
 
 float obter_estimativa_erro(float a, float b, float h) {
-	float m2 = obter_m2(a, b);
-	
-	float estimativa_erro = (((b - a) * (h * h)) / 12) * m2;
-	
-	if (estimativa_erro < 0)
-		estimativa_erro *= -1;
-		
-	return estimativa_erro;
+	float m2 = obter_m2(a, b), estimativa_erro = (h * h * (b - a) * m2) / 12;
+	return (estimativa_erro > 0) ? estimativa_erro : estimativa_erro * -1 ;
 }
 
 float integrar_trapezio(float a, float b, float n) {
