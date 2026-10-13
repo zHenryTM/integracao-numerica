@@ -2,8 +2,7 @@
 #include "funcao_de_teste.c"
 
 float obter_m2(float a, float b) {
-	// f"(x) = 2e^x + xe^x = e^x(2 + x)
-	
+	// m2 = max(f"(x)), f"(x) = 2e^x + xe^x = e^x(2 + x)
 	float m2;
 	for (int x = a; x <= b; x++) {
 		float temp = pow(2.71828, x) * (2 + x);
