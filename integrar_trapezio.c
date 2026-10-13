@@ -5,14 +5,10 @@ float obter_m2(float a, float b) {
 	// f"(x) = 2e^x + xe^x = e^x(2 + x)
 	
 	float m2;
-	
 	for (int x = a; x <= b; x++) {
 		float temp = pow(2.71828, x) * (2 + x);
-		
-		if (x == a || temp > m2) 
-			m2 = temp;
+		if (x == a || temp > m2) m2 = temp;
 	}
-	
 	return m2;
 }
 
@@ -36,6 +32,3 @@ float integrar_trapezio(float a, float b, float n) {
      
      return (h / 2) * (f(a) + 2 * somatorio);
 }
-
-
-// Falta implementar a função para calcular o erro.
