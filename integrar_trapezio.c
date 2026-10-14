@@ -20,14 +20,9 @@ float obter_estimativa_erro(float a, float b, float h) {
 float integrar_trapezio(float a, float b, float n) {
     /* Esta função integra numericamente uma função f, definida em [a,b], com n
      * subintervalos de tamanho h, utilizando o Método do Trapézio Repetido */
-     
-     float h = (b - a) / n;
-     float somatorio = 0;
-     
-     for (int i = 1; i < n; i++)
-        somatorio += f(a + i * h);
-        
-     somatorio += f(b);
-     
-     return (h / 2) * (f(a) + 2 * somatorio);
+     float h = (b - a) / n, somatorio = 0;
+     for (int i = 1; i < n; i++) somatorio += f(a + i * h);
+     return (h / 2) * (f(a) + 2 * (somatorio + f(b)));
 }
+
+// Nos intervalos [0, 2], a resposta da integral da função de teste é e^2 + 1 = 8.3890461584
