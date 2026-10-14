@@ -3,6 +3,6 @@
 
 int main() {
     float f = integrar_trapezio(0, 2, 100);
-    printf("Olá, mundo!\n");
     printf("f: %f\n", f);
+    return 0;
 }
