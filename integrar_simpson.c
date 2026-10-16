@@ -1,4 +1,3 @@
-#include <math.h>
 #include "Funções Auxiliares/obter_m4.c"
 #include "Funções Auxiliares/funcao_de_teste.c"
 #include "Funções Auxiliares/obter_erro_estimado.c"
