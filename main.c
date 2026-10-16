@@ -2,7 +2,7 @@
 #include "integrar_trapezio.c"
 
 int main() {
-    float f = integrar_trapezio(0, 2, 100);
+    double f = integrar_trapezio(0, 2, 100);
 
     printf("Método do trapézio! f: %f\n", f);
 }

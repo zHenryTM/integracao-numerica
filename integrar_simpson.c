@@ -4,7 +4,7 @@
 #include "Funções Auxiliares/obter_erro_estimado.c"
 
 
-float integrar_simpson(float a, float b, float n) {
+double integrar_simpson(double a, double b, double n) {
     /* Esta função integra numericamente uma função f, definida em [a,b], com n
      * subintervalos de tamanho h, utilizando o Método do Simpson Repetido.
 
@@ -17,8 +17,8 @@ float integrar_simpson(float a, float b, float n) {
 
     // A função obter_m4() ainda não foi implementada e você precisará fazer isso.
 
-    // A função obter_erro_estimado(float a, float b, float h, int expoente_h, float m) já foi desenvolvida
-    // e você pode chamá-la diretamente para obter o erro estimado, ela retorna um float.
+    // A função obter_erro_estimado(double a, double b, double h, int expoente_h, double m) já foi desenvolvida
+    // e você pode chamá-la diretamente para obter o erro estimado, ela retorna um double.
     //
     // o argumento m é o M4, que você receberá após implementar a função obter_m4()
 }

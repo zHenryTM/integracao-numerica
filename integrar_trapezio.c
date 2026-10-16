@@ -4,7 +4,7 @@
 #include "Funções Auxiliares/obter_erro_estimado.c"
 
 
-float integrar_trapezio(float a, float b, float n) {
+double integrar_trapezio(double a, double b, int n) {
     /* Esta função integra numericamente uma função f, definida em [a,b], com n
      * subintervalos de tamanho h, utilizando o Método do Trapézio Repetido.
 
@@ -12,18 +12,18 @@ float integrar_trapezio(float a, float b, float n) {
      * Validada analiticamente através do método de integração por partes. */
      
 
-     float h = (b - a) / n;
-     float somatorio = 0;
+     double h = (b - a) / n;
+     double somatorio = 0;
      
      for (int i = 1; i < n; i++) 
         somatorio += f(a + i * h);
         
      // apagar depois:
-        float m2 = obter_m2(a, b);
-        float erro_estimado = obter_erro_estimado(a, b, h, 2, m2);
+        double m2 = obter_m2(a, b);
+        double erro_estimado = obter_erro_estimado(a, b, h, 2, m2);
         
         printf("Estimativa de erro: %f\n", erro_estimado);
         printf("M2: %f\n", m2);
-        
-     return (h / 2) * (f(a) + 2 * (somatorio + f(b)));
+
+     return (h / 2) * ( f(a) + 2 * somatorio + f(b) );
 }
