@@ -1,6 +1,6 @@
 #include <math.h>
 
-float obter_erro_estimado(float a, float b, float h, int expoente_h, float m) {
+double obter_erro_estimado(double a, double b, double h, int expoente_h, double m) {
 	/* Esta função modular calcula e retorna a estimativa de erro do cálculo da 
 	 * integral para os métodos do trapézio e simpson repetido. Ela recebe como entrada:
 	
@@ -11,7 +11,7 @@ float obter_erro_estimado(float a, float b, float h, int expoente_h, float m) {
 	*/
 	
 	
-	float erro_estimado;
+	double erro_estimado;
 	int divisor = (expoente_h == 2) ? 12 : 180 ;
 	
 	h = pow(h, expoente_h);

@@ -1,6 +1,6 @@
 #include <math.h>
 
-float f(float x) {
+double f(double x) {
     /* Esta é a função de referência f(x) = x . e^x que será usada
      * no cáluclo da integral através dos métodos dos trapézios e de simpson */
 

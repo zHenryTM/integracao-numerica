@@ -1,4 +1,4 @@
-float obter_m4(float a, float b) {
+double obter_m4(double a, double b) {
     /* Esta função recebe a e b, que determinam o intervalo [a,b], calcula e retorna M4,
      * um parâmetro usado para concluir a estimativa de erro do cálculo de uma integral pelo
      * método do simpson repetido.
