@@ -1,3 +1,5 @@
+#include <math.h>
+
 double obter_m2(double a, double b) {
     /* Esta função recebe a e b, que determinam o intervalo [a,b], calcula e retorna M2,
      * um parâmetro usado para concluir a estimativa de erro do cálculo de uma integral pelo
@@ -9,9 +11,9 @@ double obter_m2(double a, double b) {
 
 	double m2;
 
-	for (int x = a; x <= b; x++)
+	for (double x = a; x <= b; x++)
     {
-		double temp = pow(2.71828, x) * (2 + x);
+		double temp = exp(x) * (2 + x);  // exp(x) é uma função de <math.h> e equivale a e^x.
 
 		if (x == a || temp > m2)
             m2 = temp;
