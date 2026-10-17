@@ -1,23 +1,57 @@
-#include "Funções Auxiliares/obter_m4.c"
-#include "Funções Auxiliares/funcao_de_teste.c"
-#include "Funções Auxiliares/obter_erro_estimado.c"
+#include "Fun��es Auxiliares/obter_m4.c"
+#include "Fun��es Auxiliares/funcao_de_teste.c"
+#include "Fun��es Auxiliares/obter_erro_estimado.c"
+#include<stdio.h>
+
+/* Esta funcaoo integra numericamente uma funcao f, definida em [a,b], com n
+ * subintervalos de tamanho h, utilizando o metodo do Simpson Repetido.
+
+ * No intervalo [0,2], a resposta da integral da funcao de teste e: e^2 + 1 = 8.3890461584
+ * Validada analiticamente atraves do metodo de integracao por partes. */
 
 
-double integrar_simpson(double a, double b, double n) {
-    /* Esta função integra numericamente uma função f, definida em [a,b], com n
-     * subintervalos de tamanho h, utilizando o Método do Simpson Repetido.
+typedef double (*Funcao)(double); //declara um tipo funcao que recebe um double como parametro
 
-     * No intervalo [0,2], a resposta da integral da função de teste é: e^2 + 1 = 8.3890461584
-     * Validada analiticamente através do método de integração por partes. */
+double integrar_simpson(Funcao f, double a, double b, int n) {
+	
+	double Is; // Is = o valor da integral calculada com o metodo do 1/3 de simpson
+	
+	//verifica se o valor de n e impar, se for retorna -1
+	if ((n%2)!= 0){ 
+		
+		printf("Para integrar pelo metodo 1/3 de simpson repetido, n deve ser par!\n");
+		
+		return -1.0;
+		
+	} else{ //se n for par
+		
+		double h = (b - a) / n; //calcula o h (largura constante dos subintervalos)
+		double soma_impar = 0.0; //soma quando i for impar
+		double soma_par = 0.0; //soma quando i for par
+		double x = 0.0; //incia x com 0
+		
+		int i = 0; //i faz a itera��o do loop
+		
+		for(i = 0; i<n; i++){ //loop inicia com 0 e itera ate i ser igual a n - 1
+			
+			x = a + i * h; // x recebe o valor de a + i multiplicado a largura dos suintervalos 
+			
+			if((i%2) == 0){
+				//se i for par soma o valor anterior de soma_par ao resultado da funcao em x
+				soma_par = soma_par + f(x); 
+				
+			} else{
+				//se i for impar soma o valor anterior de soma_par ao resultado da funcao em x
+				soma_impar = soma_impar + f(x);
+				
+			}
+		}
+		
+		Is = h / 3.0 * (f(a) + 4.0 * soma_impar + 2.0 * soma_par + f(b)); // calcula o Is
+	
 
+	}
 
-    // -=-=-==-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-    // Olá! Tomei a liberdade para agilizar alguns processos. A partir daqui, tudo está em suas mãos.
-
-    // A função obter_m4() ainda não foi implementada e você precisará fazer isso.
-
-    // A função obter_erro_estimado(double a, double b, double h, int expoente_h, double m) já foi desenvolvida
-    // e você pode chamá-la diretamente para obter o erro estimado, ela retorna um double.
-    //
-    // o argumento m é o M4, que você receberá após implementar a função obter_m4()
+    
+    return Is;
 }
