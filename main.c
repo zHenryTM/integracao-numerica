@@ -176,7 +176,7 @@ double obter_erro_real_relativo(double Iaproximado) {
 }
 
 int main() {
-    double resultado_trapezio, resultado_simpson, erro_estimado_trapezio, erro_estimado_simpson, m2, m4, a = 0, b = 2;
+    double resultado_trapezio, resultado_simpson, erro_estimado_trapezio, erro_estimado_simpson, m2, m4, Iexato = exp(2) + 1, a = 0, b = 2;
     int n = 100;
 
     printf("Metodo do Trapezio:\n\n");
@@ -186,10 +186,12 @@ int main() {
     erro_estimado_trapezio = obter_erro_estimado(a, b, (b - a) / n, 2, m2);
 
     printf("Resultado da integral: %.10f\n", resultado_trapezio);
-    printf("Erro estimado (Limite Teorico): %.10f\n", erro_estimado_trapezio);
+    printf("Erro estimado absoluto(Limite Teorico): %.10f\n", erro_estimado_trapezio);
+    printf("Erro estimado relativo(Limite Teorico): %.10f\n", erro_estimado_trapezio / Iexato * 100);
     printf("M2: %.10f\n", m2);
     printf("Probabilidade normal (Trapezio): %.10f\n", calcular_probabilidade_normal(1));
     printf("Probabilidade normal de acordo com a literatura: 0.816223\n");
+    printf("Diferença da probabildade normal: %.10f\n", fabs(calcular_probabilidade_normal(1) - 0.816223));
     printf("Erro real relativo percentual: %.10f%%\n", obter_erro_real_relativo(resultado_trapezio));
 
     printf("\n\n");
@@ -201,10 +203,12 @@ int main() {
     erro_estimado_simpson = obter_erro_estimado(a, b, (b - a) / n, 4, m4);
 
     printf("Resultado da integral: %.10f\n", resultado_simpson);
-    printf("Erro estimado (Limite Teorico): %.10f\n", erro_estimado_simpson);
+    printf("Erro estimado absoluto (Limite Teorico): %.10f\n", erro_estimado_simpson);
+    printf("Erro estimado relativo(Limite Teorico): %.10f\n", erro_estimado_simpson / Iexato * 100);
     printf("M4: %.10f\n", m4);
     printf("Probabilidade normal (Simpson): %.10f\n", calcular_probabilidade_normal(2));
     printf("Probabilidade normal de acordo com a literatura: 0.816223\n");
+    printf("Diferença da probabildade normal: %.10f\n", fabs(calcular_probabilidade_normal(2) - 0.816223));
     printf("Erro real relativo percentual: %.10f%%\n", obter_erro_real_relativo(resultado_simpson));
 
     return 0;
