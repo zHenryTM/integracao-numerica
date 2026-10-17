@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include "integrar_trapezio.c"
+#include "Funcoes_Auxiliares/funcao_de_teste.c"
+
 
 int main() {
-    double f = integrar_trapezio(0, 2, 100);
+    double resultado = integrar_trapezio(f, 0, 2, 100);
 
-    printf("Método do trapézio! f: %f\n", f);
+    printf("Metodo do Trapezio! f: %f\n", resultado);
 }

@@ -1,9 +1,9 @@
-#include "Funções Auxiliares/obter_m4.c"
-#include "Funções Auxiliares/funcao_de_teste.c"
-#include "Funções Auxiliares/obter_erro_estimado.c"
+#include "Funcoes_Auxiliares/obter_m4.c"
+#include "Funcoes_Auxiliares/funcao_de_teste.c"
+#include "Funcoes_Auxiliares/obter_erro_estimado.c"
 
 
-double integrar_simpson(double a, double b, double n) {
+double integrar_simpson(double (*f)(double), double a, double b, int n) {
     /* Esta função integra numericamente uma função f, definida em [a,b], com n
      * subintervalos de tamanho h, utilizando o Método do Simpson Repetido.
 
