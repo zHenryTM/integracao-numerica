@@ -58,6 +58,9 @@ double obter_m4(double a, double b) {
      * Nesse caso o máximo não está dentro do intervalo dado [0, 2]
      * Logo o máximo vai ser um dos dois valores */
 
+    if (a <= -5 && -5 <= b)
+        return fabs(exp(-5) * -1);
+
     double funcao_em_a = fabs(exp(a) * (a + 4));
     double funcao_em_b = fabs(exp(b) * (b + 4));
     
