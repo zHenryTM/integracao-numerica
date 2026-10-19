@@ -49,7 +49,7 @@ double obter_m4(double a, double b) {
      * m4 = max(f^(4)(x)), a <= x <= b.
      * f(x) = x.e^x, logo f^(4)(x) = 4e^x + x.e^x = e^x(x + 4).
 
-     * Derivamos 4e^x + e^x e igualamos a 0:
+     * Derivamos 4e^x + x.e^x e igualamos a 0:
      * f^(5)(x) = 5e^x + xe^x
      * (5 + x)e^x = 0
      * 5 + x = 0
@@ -57,13 +57,13 @@ double obter_m4(double a, double b) {
                 
      * Nesse caso o máximo não está dentro do intervalo dado [0, 2]
      * Logo o máximo vai ser um dos dois valores */
-
+     
     if (a <= -5 && -5 <= b)
         return fabs(exp(-5) * -1);
 
     double funcao_em_a = fabs(exp(a) * (a + 4));
     double funcao_em_b = fabs(exp(b) * (b + 4));
-    
+     
     return (funcao_em_a > funcao_em_b) ? funcao_em_a : funcao_em_b ;
 }
 
@@ -95,6 +95,11 @@ double integrar_trapezio(double (*g)(double), double a, double b, int n) {
 
      * No intervalo [0,2], a resposta da integral da função de teste é: e^2 + 1 = 8.3890560989
      * Validada analiticamente através do método de integração por partes. */
+     
+    if (n <= 0) {
+        printf("n não pode ser um número negativo.\nPara não encerrar o programa, n será alterado para 100, o valor padrão.\n");
+        n = 100;
+    }
 
     double h = (b - a) / n, somatorio = 0;
 
@@ -113,6 +118,11 @@ double integrar_simpson(double (*g)(double), double a, double b, int n) {
 
 
     double Is;  // Valor da integral
+    
+    if (n <= 0) {
+        printf("n não pode ser um número negativo.\nPara não encerrar o programa, n será alterado para 100, o valor padrão.\n");
+        n = 100;
+    }
     
     if (n % 2 != 0) { 
         printf("Para integrar pelo metodo 1/3 de simpson repetido, n deve ser par!\n");
@@ -175,7 +185,7 @@ double calcular_probabilidade_normal(int opcao) {
             B = integrar_simpson(dpm, -1, 1.96, 100);
             break;
         default:
-            printf("Opcao invalida. Por favor, escolha 1 para usar o método do trapézio ou 2, para simpson.\n");
+            printf("Opcao invalida. Por favor, escolha 1 para usar o metodo do trapezio ou 2, para simpson.\n");
             exit(1);
     }
 
@@ -206,11 +216,11 @@ int main() {
     printf("Resultado da integral: %.10f\n", resultado_trapezio);
     printf("Erro estimado absoluto(Limite Teorico): %.10f\n", erro_estimado_trapezio);
     printf("Erro estimado relativo(Limite Teorico): %.10f\n", erro_estimado_trapezio / Iexato * 100);
+    printf("Erro real relativo percentual: %.10f%%\n", obter_erro_real_relativo(resultado_trapezio));
     printf("M2: %.10f\n", m2);
     printf("Probabilidade normal (Trapezio): %.10f\n", calcular_probabilidade_normal(1));
     printf("Probabilidade normal de acordo com a literatura: 0.816223\n");
     printf("Diferença da probabildade normal: %.10f\n", fabs(calcular_probabilidade_normal(1) - 0.816223));
-    printf("Erro real relativo percentual: %.10f%%\n", obter_erro_real_relativo(resultado_trapezio));
 
     printf("\n\n");
 
@@ -223,11 +233,11 @@ int main() {
     printf("Resultado da integral: %.10f\n", resultado_simpson);
     printf("Erro estimado absoluto (Limite Teorico): %.10f\n", erro_estimado_simpson);
     printf("Erro estimado relativo(Limite Teorico): %.10f\n", erro_estimado_simpson / Iexato * 100);
+    printf("Erro real relativo percentual: %.10f%%\n", obter_erro_real_relativo(resultado_simpson));
     printf("M4: %.10f\n", m4);
     printf("Probabilidade normal (Simpson): %.10f\n", calcular_probabilidade_normal(2));
     printf("Probabilidade normal de acordo com a literatura: 0.816223\n");
     printf("Diferença da probabildade normal: %.10f\n", fabs(calcular_probabilidade_normal(2) - 0.816223));
-    printf("Erro real relativo percentual: %.10f%%\n", obter_erro_real_relativo(resultado_simpson));
 
     return 0;
 }
