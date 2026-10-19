@@ -222,13 +222,19 @@ double obter_erro_real_relativo(double Iaproximado) {
 
 int main() {
     double resultado_trapezio, resultado_simpson, erro_estimado_trapezio, erro_estimado_simpson, m2, m4, Iexato = exp(2) + 1, a = 0, b = 2;
-    int n = 100;
+    int n[4] = {4, 10, 50, 100};
+    
+    for (int i = 0; i < 4; i++) {
+    
+        printf("=====================================================================================\n");
+        printf("Para n = %d\n", n[i]);
+        printf("=====================================================================================\n");
 
     printf("Metodo do Trapezio:\n\n");
 
-    resultado_trapezio = integrar_trapezio(f, a, b, n);
+    resultado_trapezio = integrar_trapezio(f, a, b, n[i]);
     m2 = obter_m2(a, b);
-    erro_estimado_trapezio = obter_erro_estimado(a, b, (b - a) / n, 2, m2);
+    erro_estimado_trapezio = obter_erro_estimado(a, b, (b - a) / n[i], 2, m2);
 
     printf("Resultado da integral: %.10f\n", resultado_trapezio);
     printf("Erro estimado absoluto(Limite Teorico): %.10f\n", erro_estimado_trapezio);
@@ -243,9 +249,9 @@ int main() {
 
     printf("Metodo do Simpson:\n\n");
 
-    resultado_simpson = integrar_simpson(f, a, b, n);
+    resultado_simpson = integrar_simpson(f, a, b, n[i]);
     m4 = obter_m4(a, b);
-    erro_estimado_simpson = obter_erro_estimado(a, b, (b - a) / n, 4, m4);
+    erro_estimado_simpson = obter_erro_estimado(a, b, (b - a) / n[i], 4, m4);
 
     printf("Resultado da integral: %.10f\n", resultado_simpson);
     printf("Erro estimado absoluto (Limite Teorico): %.10f\n", erro_estimado_simpson);
@@ -254,7 +260,8 @@ int main() {
     printf("M4: %.10f\n", m4);
     printf("Probabilidade normal (Simpson): %.10f\n", calcular_probabilidade_normal(2));
     printf("Probabilidade normal de acordo com a literatura: 0.816223\n");
-    printf("Diferença da probabilidade normal: %.10f\n", fabs(calcular_probabilidade_normal(2) - 0.816223));
-
+    printf("Diferença da probabilidade normal: %.10f\n\n", fabs(calcular_probabilidade_normal(2) - 0.816223));
+    }
+    
     return 0;
 }
