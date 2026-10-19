@@ -29,16 +29,24 @@ double obter_m2(double a, double b) {
      * 
      * Portanto, M2 será um extremo do intervalo. Ou seja, ou será |f''(0)| ou será |f''(2)|
      * 
+     * Se -3 estivesse no intervalo, |f''(-3)| também entra na comparação, e o retorno será o maior valor.
+     * 
      * Um algoritmo pode ser implementado facilmente para calcular M2 com essa técnica,
      * mas como o exercício limita o intervalo, podemos fazer analiticamente e concluir que M2 = |f''(2)| */
     
-    if (a <= -3 && -3 <= b)
-        return fabs(exp(-3) * -1);
     
     double fa = fabs(exp(a) * (a + 2));
-    double fb = fabs(exp(b) * (b + 2));     
+    double fb = fabs(exp(b) * (b + 2));
     
-    return (fa > fb) ? fa : fb ;
+    double maior_valor = (fa > fb) ? fa : fb ;
+    
+    if (a <= -3 && -3 <= b) {
+        double fc = fabs(exp(-3) * -1);
+        
+        maior_valor = (fc > maior_valor) ? fc : maior_valor ;
+    }    
+    
+    return maior_valor;
 }
 
 double obter_m4(double a, double b) {
@@ -56,15 +64,23 @@ double obter_m4(double a, double b) {
      * x = -5
                 
      * Nesse caso o máximo não está dentro do intervalo dado [0, 2]
-     * Logo o máximo vai ser um dos dois valores */
+     * Logo o máximo vai ser um dos dois valores 
+     *
+     * Se -5 estivesse no intervalo, |f''(-5)| também entra na comparação, e o retorno será o maior valor. */
      
-    if (a <= -5 && -5 <= b)
-        return fabs(exp(-5) * -1);
-
+    
     double funcao_em_a = fabs(exp(a) * (a + 4));
     double funcao_em_b = fabs(exp(b) * (b + 4));
+    
+    double maior_valor = (funcao_em_a > funcao_em_b) ? funcao_em_a : funcao_em_b ;
+    
+    if (a <= -5 && -5 <= b) {
+        double funcao_em_c = fabs(exp(-5) * -1);
+        
+        maior_valor = (funcao_em_c > maior_valor) ? funcao_em_c : maior_valor ;
+    }
      
-    return (funcao_em_a > funcao_em_b) ? funcao_em_a : funcao_em_b ;
+    return maior_valor;
 }
 
 double obter_erro_estimado(double a, double b, double h, int expoente_h, double m) {
@@ -96,9 +112,10 @@ double integrar_trapezio(double (*g)(double), double a, double b, int n) {
      * No intervalo [0,2], a resposta da integral da função de teste é: e^2 + 1 = 8.3890560989
      * Validada analiticamente através do método de integração por partes. */
      
+     
     if (n <= 0) {
-        printf("n não pode ser um número negativo.\nPara não encerrar o programa, n será alterado para 100, o valor padrão.\n");
-        n = 100;
+        printf("n nao pode ser menor ou igual a zero\n");
+        exit(1);
     }
 
     double h = (b - a) / n, somatorio = 0;
@@ -120,8 +137,8 @@ double integrar_simpson(double (*g)(double), double a, double b, int n) {
     double Is;  // Valor da integral
     
     if (n <= 0) {
-        printf("n não pode ser um número negativo.\nPara não encerrar o programa, n será alterado para 100, o valor padrão.\n");
-        n = 100;
+        printf("n nao pode ser menor ou igual a zero\n");
+        exit(1);
     }
     
     if (n % 2 != 0) { 
@@ -220,7 +237,7 @@ int main() {
     printf("M2: %.10f\n", m2);
     printf("Probabilidade normal (Trapezio): %.10f\n", calcular_probabilidade_normal(1));
     printf("Probabilidade normal de acordo com a literatura: 0.816223\n");
-    printf("Diferença da probabildade normal: %.10f\n", fabs(calcular_probabilidade_normal(1) - 0.816223));
+    printf("Diferença da probabilidade normal: %.10f\n", fabs(calcular_probabilidade_normal(1) - 0.816223));
 
     printf("\n\n");
 
@@ -237,7 +254,7 @@ int main() {
     printf("M4: %.10f\n", m4);
     printf("Probabilidade normal (Simpson): %.10f\n", calcular_probabilidade_normal(2));
     printf("Probabilidade normal de acordo com a literatura: 0.816223\n");
-    printf("Diferença da probabildade normal: %.10f\n", fabs(calcular_probabilidade_normal(2) - 0.816223));
+    printf("Diferença da probabilidade normal: %.10f\n", fabs(calcular_probabilidade_normal(2) - 0.816223));
 
     return 0;
 }
