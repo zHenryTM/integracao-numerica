@@ -3,36 +3,45 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <ctype.h>
+
+void limpar_tela() {
+    #if defined(_WIN32) || defined(_WIN64)
+        system("cls");  // Comando para limpar o terminal no Windows
+    #else
+        system("clear"); // Comando para limpar o terminal no Linux/Unix
+    #endif
+}
 
 double f(double x) {
-    /* Esta √© a fun√ß√£o de refer√™ncia f(x) = x . e^x que ser√° usada
-     * no c√°lculo da integral atrav√©s dos m√©todos dos trap√©zios e de simpson */
+    /* Esta È a funÁ„o de referÍncia f(x) = x . e^x que ser· usada
+     * no c·lculo da integral atravÈs dos mÈtodos dos trapÈzios e de simpson */
 
-    return x * exp(x);  // exp(x) √© uma fun√ß√£o de <math.h> e equivale a e^x.
+    return x * exp(x);  // exp(x) È uma funÁ„o de <math.h> e equivale a e^x.
 }
 
 double obter_m2(double a, double b) {
-    /* M2 √© o maior valor de |f''(x)| em todo o intervalo [a,b].
+    /* M2 È o maior valor de |f''(x)| em todo o intervalo [a,b].
 
-     * Para calcular M2, podemos usar o teste da primeira derivada na fun√ß√£o f''(x) = e^x(x + 2),
-     * para o obter seu n√∫mero cr√≠tico.
+     * Para calcular M2, podemos usar o teste da primeira derivada na funÁ„o f''(x) = e^x(x + 2),
+     * para o obter seu n˙mero crÌtico.
      
      * considerando g(x) = f''(x) ==> g'(x) = f'''(x) = e^x(x + 3)
      
-     * Achando o ponto cr√≠tico:
+     * Achando o ponto crÌtico:
      * g'(x) = 0
      * e^x(x + 3) = 0
      * Logo, x = -3
      * 
-     * Na fun√ß√£o de refer√™ncia, o intervalo √© limitado em [0,2].
-     * Assim, percebe-se que -3 est√° fora do intervalo.
+     * Na funÁ„o de referÍncia, o intervalo È limitado em [0,2].
+     * Assim, percebe-se que -3 est· fora do intervalo.
      * 
-     * Portanto, M2 ser√° um extremo do intervalo. Ou seja, ou ser√° |f''(0)| ou ser√° |f''(2)|
+     * Portanto, M2 ser· um extremo do intervalo. Ou seja, ou ser· |f''(0)| ou ser· |f''(2)|
      * 
-     * Se -3 estivesse no intervalo, |f''(-3)| tamb√©m entra na compara√ß√£o, e o retorno ser√° o maior valor.
+     * Se -3 estivesse no intervalo, |f''(-3)| tambÈm entra na comparaÁ„o, e o retorno ser· o maior valor.
      * 
-     * Um algoritmo pode ser implementado facilmente para calcular M2 com essa t√©cnica,
-     * mas como o exerc√≠cio limita o intervalo, podemos fazer analiticamente e concluir que M2 = |f''(2)| */
+     * Um algoritmo pode ser implementado facilmente para calcular M2 com essa tÈcnica,
+     * mas como o exercÌcio limita o intervalo, podemos fazer analiticamente e concluir que M2 = |f''(2)| */
     
     
     double fa = fabs(exp(a) * (a + 2));
@@ -63,10 +72,10 @@ double obter_m4(double a, double b) {
      * 5 + x = 0
      * x = -5
                 
-     * Nesse caso o m√°ximo n√£o est√° dentro do intervalo dado [0, 2]
-     * Logo o m√°ximo vai ser um dos dois valores 
+     * Nesse caso o m·ximo n„o est· dentro do intervalo dado [0, 2]
+     * Logo o m·ximo vai ser um dos dois valores 
      *
-     * Se -5 estivesse no intervalo, |f''(-5)| tamb√©m entra na compara√ß√£o, e o retorno ser√° o maior valor. */
+     * Se -5 estivesse no intervalo, |f''(-5)| tambÈm entra na comparaÁ„o, e o retorno ser· o maior valor. */
      
     
     double funcao_em_a = fabs(exp(a) * (a + 4));
@@ -84,13 +93,13 @@ double obter_m4(double a, double b) {
 }
 
 double obter_erro_estimado(double a, double b, double h, int expoente_h, double m) {
-        /* Esta fun√ß√£o modular calcula e retorna a estimativa de erro do c√°lculo da 
-         * integral para os m√©todos do trap√©zio e simpson repetido. Ela recebe como entrada:
+        /* Esta funÁ„o modular calcula e retorna a estimativa de erro do c·lculo da 
+         * integral para os mÈtodos do trapÈzio e simpson repetido. Ela recebe como entrada:
         
          * - Os extremos do intervalo [a,b];
          * - O comprimento h de cada subintervalo;
-         * - O expoente ao qual h ser√° elevado;
-         * - m, que corresponde ao M2, do m√©todo do trap√©zio, ou M4, do simpson */
+         * - O expoente ao qual h ser· elevado;
+         * - m, que corresponde ao M2, do mÈtodo do trapÈzio, ou M4, do simpson */
 
         double erro_estimado;
         int divisor = (expoente_h == 2) ? 12 : 180 ;
@@ -106,11 +115,11 @@ double obter_erro_estimado(double a, double b, double h, int expoente_h, double 
 }
 
 double integrar_trapezio(double (*g)(double), double a, double b, int n) {
-    /* Esta fun√ß√£o integra numericamente uma fun√ß√£o f, definida em [a,b], com n
-     * subintervalos de tamanho h, utilizando o M√©todo do Trap√©zio Repetido.
+    /* Esta funÁ„o integra numericamente uma funÁ„o f, definida em [a,b], com n
+     * subintervalos de tamanho h, utilizando o MÈtodo do TrapÈzio Repetido.
 
-     * No intervalo [0,2], a resposta da integral da fun√ß√£o de teste √©: e^2 + 1 = 8.3890560989
-     * Validada analiticamente atrav√©s do m√©todo de integra√ß√£o por partes. */
+     * No intervalo [0,2], a resposta da integral da funÁ„o de teste È: e^2 + 1 = 8.3890560989
+     * Validada analiticamente atravÈs do mÈtodo de integraÁ„o por partes. */
      
      
     if (n <= 0) {
@@ -127,11 +136,11 @@ double integrar_trapezio(double (*g)(double), double a, double b, int n) {
 }
 
 double integrar_simpson(double (*g)(double), double a, double b, int n) {
-    /* Esta fun√ß√£o integra numericamente uma fun√ß√£o g, definida em [a,b], com n
-     * subintervalos de tamanho h, utilizando o M√©todo do Simpson Repetido.
+    /* Esta funÁ„o integra numericamente uma funÁ„o g, definida em [a,b], com n
+     * subintervalos de tamanho h, utilizando o MÈtodo do Simpson Repetido.
 
-     * No intervalo [0,2], a resposta da integral da fun√ß√£o de teste √©: e^2 + 1 = 8.3890560989
-     * Validada analiticamente atrav√©s do m√©todo de integra√ß√£o por partes. */
+     * No intervalo [0,2], a resposta da integral da funÁ„o de teste È: e^2 + 1 = 8.3890560989
+     * Validada analiticamente atravÈs do mÈtodo de integraÁ„o por partes. */
 
 
     double Is;  // Valor da integral
@@ -164,31 +173,31 @@ double integrar_simpson(double (*g)(double), double a, double b, int n) {
 }
 
 double dpm(double z) {
-    /* Esta fun√ß√£o auxilia no c√°lculo da integral da fun√ß√£o densidade de probabilidade normal,
+    /* Esta funÁ„o auxilia no c·lculo da integral da funÁ„o densidade de probabilidade normal,
      * sendo ela f(z) = 1 / sqrt(2 * PI) * e^(-0.5 * z^2) 
      *
-     * ao calcular a integral, como 1 / sqrt(2 * PI) √© uma constante, podemos tir√°-la para fora da integral,
+     * ao calcular a integral, como 1 / sqrt(2 * PI) È uma constante, podemos tir·-la para fora da integral,
      * restando e^(-0.5 * z^2)
      * 
-     * e^(-0.5 * z^2) n√£o tem primitiva conhecida, ent√£o √© necess√°rio aplic√°-lo nos m√©todos do trap√©zio ou
+     * e^(-0.5 * z^2) n„o tem primitiva conhecida, ent„o È necess·rio aplic·-lo nos mÈtodos do trapÈzio ou
      * do simpson repetidos.
      * 
-     * Esta fun√ß√£o facilita o calculo, retornando f(z) = e^(-0.5 * z^2). */
+     * Esta funÁ„o facilita o calculo, retornando f(z) = e^(-0.5 * z^2). */
 
     return exp(-0.5 * z * z);
 }
 
 double calcular_probabilidade_normal(int opcao) {
-    /* Esta fun√ß√£o calcula a probablidade normal, definido pela integral definida de -1 a 1,96 de f(z) = 1 / sqrt(2 * PI) * e^(-0.5 * z^2).
-     * Como 1 / sqrt(2 * PI) √© uma constante, podemos separ√°-lo do restante da integral e multiplicar ambos no final. 
+    /* Esta funÁ„o calcula a probablidade normal, definido pela integral definida de -1 a 1,96 de f(z) = 1 / sqrt(2 * PI) * e^(-0.5 * z^2).
+     * Como 1 / sqrt(2 * PI) È uma constante, podemos separ·-lo do restante da integral e multiplicar ambos no final. 
      * 
-     * Assim, quebraremos a fun√ß√£o em duas partes, A e B, sendo A a parte constante da fun√ß√£o e B, o integrando. 
+     * Assim, quebraremos a funÁ„o em duas partes, A e B, sendo A a parte constante da funÁ„o e B, o integrando. 
      *
-     * O integrando n√£o possui fun√ß√£o primitiva conhecida, ent√£o precisaremos dos m√©todos do tr√°pezio ou do simpson para calcular.
-     * Desse modo, o par√¢metro opcao serve para decidir qual m√©todo ser√° usado nesse processo, sendo:
+     * O integrando n„o possui funÁ„o primitiva conhecida, ent„o precisaremos dos mÈtodos do tr·pezio ou do simpson para calcular.
+     * Desse modo, o par‚metro opcao serve para decidir qual mÈtodo ser· usado nesse processo, sendo:
      
-     * opcao = 1, m√©todo do trap√©zio
-     * opcao = 2, m√©todo do simpson */
+     * opcao = 1, mÈtodo do trapÈzio
+     * opcao = 2, mÈtodo do simpson */
 
     double A, B;
 
@@ -210,9 +219,9 @@ double calcular_probabilidade_normal(int opcao) {
 }
 
 double obter_erro_real_relativo(double Iaproximado) {
-    /* Esta fun√ß√£o calcula o erro real relativo percentual da integral da fun√ß√£o de refer√™ncia f(x) = x.e^x no intervalo [0,2].
+    /* Esta funÁ„o calcula o erro real relativo percentual da integral da funÁ„o de referÍncia f(x) = x.e^x no intervalo [0,2].
      * 
-     * O c√°lculo √© o seguinte:
+     * O c·lculo È o seguinte:
      * 
      * E = |(Iexato - Iaproximado) / Iexato| * 100 */
 
@@ -221,47 +230,169 @@ double obter_erro_real_relativo(double Iaproximado) {
 }
 
 int main() {
-    double resultado_trapezio, resultado_simpson, erro_estimado_trapezio, erro_estimado_simpson, m2, m4, Iexato = exp(2) + 1, a = 0, b = 2;
-    int n[4] = {4, 10, 50, 100};
+    int opcao = 0;
     
-    for (int i = 0; i < 4; i++) {
+    printf("==========================================\n");
+    printf("           ATIVIDADE DE CALCULO II         \n");
+    printf("==========================================\n\n");
     
-        printf("=====================================================================================\n");
-        printf("Para n = %d\n", n[i]);
-        printf("=====================================================================================\n");
-
-    printf("Metodo do Trapezio:\n\n");
-
-    resultado_trapezio = integrar_trapezio(f, a, b, n[i]);
-    m2 = obter_m2(a, b);
-    erro_estimado_trapezio = obter_erro_estimado(a, b, (b - a) / n[i], 2, m2);
-
-    printf("Resultado da integral: %.10f\n", resultado_trapezio);
-    printf("Erro estimado absoluto(Limite Teorico): %.10f\n", erro_estimado_trapezio);
-    printf("Erro estimado relativo(Limite Teorico): %.10f\n", erro_estimado_trapezio / Iexato * 100);
-    printf("Erro real relativo percentual: %.10f%%\n", obter_erro_real_relativo(resultado_trapezio));
-    printf("M2: %.10f\n", m2);
-    printf("Probabilidade normal (Trapezio): %.10f\n", calcular_probabilidade_normal(1));
-    printf("Probabilidade normal de acordo com a literatura: 0.816223\n");
-    printf("Diferen√ßa da probabilidade normal: %.10f\n", fabs(calcular_probabilidade_normal(1) - 0.816223));
-
-    printf("\n\n");
-
-    printf("Metodo do Simpson:\n\n");
-
-    resultado_simpson = integrar_simpson(f, a, b, n[i]);
-    m4 = obter_m4(a, b);
-    erro_estimado_simpson = obter_erro_estimado(a, b, (b - a) / n[i], 4, m4);
-
-    printf("Resultado da integral: %.10f\n", resultado_simpson);
-    printf("Erro estimado absoluto (Limite Teorico): %.10f\n", erro_estimado_simpson);
-    printf("Erro estimado relativo(Limite Teorico): %.10f\n", erro_estimado_simpson / Iexato * 100);
-    printf("Erro real relativo percentual: %.10f%%\n", obter_erro_real_relativo(resultado_simpson));
-    printf("M4: %.10f\n", m4);
-    printf("Probabilidade normal (Simpson): %.10f\n", calcular_probabilidade_normal(2));
-    printf("Probabilidade normal de acordo com a literatura: 0.816223\n");
-    printf("Diferen√ßa da probabilidade normal: %.10f\n\n", fabs(calcular_probabilidade_normal(2) - 0.816223));
-    }
-    
-    return 0;
+    do {
+    	printf("Escolha uma opcao\n");
+    	
+    	printf("[1] - Metodo do Trapezio\n");
+    	printf("[2] - Metodo do Simpson\n");
+    	printf("[3] - Calcular probabilidade normal\n");
+    	printf("[4] - Exibir tabela comparativa, com a = 0, b = 2\n");
+    	printf("[5] - Encerrar programa\n");
+    	
+    	scanf("%d", &opcao);
+    	
+    	if (opcao < 1 || opcao > 5) {
+    		limpar_tela();
+    		printf("Por favor, digite uma opcao valida.\n");
+    		continue;
+    	}
+    	
+    	limpar_tela();
+    	
+    	switch (opcao) {
+    		case 1: {
+    			printf("-------------  METODO DO TRAPEZIO  --------------\n\n");
+    			
+				double a, b, resultado_trapezio, m2, erro_estimado_trapezio, Iexato = exp(2) + 1;
+				int n = 0;
+				
+				printf("Entre com o valor de a: "); scanf("%lf", &a); printf("\n");
+				printf("Entre com o valor de b: "); scanf("%lf", &b); printf("\n");
+				
+				do {
+					printf("Entre com o valor inteiro de n (n > 0): "); scanf("%d", &n); printf("\n");
+					if (n < 1) 
+						printf("Por favor, digite um inteiro maior que zero.\n");
+				} while (n < 1);
+				
+				resultado_trapezio = integrar_trapezio(f, a, b, n);
+    			m2 = obter_m2(a, b);
+    			erro_estimado_trapezio = obter_erro_estimado(a, b, (b - a) / n, 2, m2);
+    			
+    			printf("Resultado da integral: %.10f\n", resultado_trapezio);
+			    printf("Erro estimado absoluto(Limite Teorico): %.10f\n", erro_estimado_trapezio);
+			    printf("Erro estimado relativo(Limite Teorico): %.10f%%\n", erro_estimado_trapezio / Iexato * 100);
+			    printf("Erro real relativo percentual: %.10f%%\n", obter_erro_real_relativo(resultado_trapezio));
+			    printf("M2: %.10f\n\n", m2);
+				
+				printf("-------------------------------------------------\n\n");
+				
+				break;
+			}
+    		case 2: {
+    			printf("-------------  METODO DO SIMPSON  --------------\n\n");
+    			
+				double a, b, resultado_simpson, m4, erro_estimado_simpson, Iexato = exp(2) + 1;
+				int n = 0;
+				
+				printf("Entre com o valor de a: "); scanf("%lf", &a); printf("\n");
+				printf("Entre com o valor de b: "); scanf("%lf", &b); printf("\n");
+				
+				do {
+					printf("Entre com o valor inteiro de n (n > 0): "); scanf("%d", &n); printf("\n");
+					if (n < 1) 
+						printf("Por favor, digite um inteiro maior que zero.\n");
+				} while (n < 1);
+				
+				resultado_simpson = integrar_simpson(f, a, b, n);
+			    m4 = obter_m4(a, b);
+			    erro_estimado_simpson = obter_erro_estimado(a, b, (b - a) / n, 4, m4);
+			
+			    printf("Resultado da integral: %.10f\n", resultado_simpson);
+			    printf("Erro estimado absoluto (Limite Teorico): %.10f\n", erro_estimado_simpson);
+			    printf("Erro estimado relativo(Limite Teorico): %.10f%%\n", erro_estimado_simpson / Iexato * 100);
+			    printf("Erro real relativo percentual: %.10f%%\n", obter_erro_real_relativo(resultado_simpson));
+			    printf("M4: %.10f\n\n", m4);
+				
+				printf("-------------------------------------------------\n\n");
+			
+				break;
+			}
+    		case 3: {
+    			int opcao = 0;
+    			
+    			do {
+	    			printf("Escolha um dos metodos a seguir para auxiliar no calculo\n");
+	    			printf("[1] - Metodo do Trapezio\n");
+	    			printf("[2] - Metodo do Simpson\n");
+	    			
+	    			printf("Opcao: ");
+	    			scanf("%d", &opcao);
+	    			printf("\n");
+	    			
+	    			if (opcao < 1 || opcao > 2) {
+	    				limpar_tela();
+	    				printf("Por favor, escolha uma opcao valida.\n");
+	    				continue;
+					}
+    			} while (opcao < 1 || opcao > 2);
+    			
+    			printf("\n");
+    			
+    			printf("Probabilidade normal: %.10f\n", calcular_probabilidade_normal(opcao));
+			    printf("Probabilidade normal de acordo com a literatura: 0.816223\n");
+			    printf("Diferenca da probabilidade normal: %.10f\n\n", fabs(calcular_probabilidade_normal(opcao) - 0.816223));
+				break;
+			}
+    		case 4: {
+    			int n[4] = {4, 10, 50, 100};
+    			double Iexato = exp(2) + 1;
+    			double erro_estimado_trapezio, erro_estimado_simpson, m2, m4;
+    			double a = 0.0, b = 2.0;
+    			
+    			printf("\n\nTabela comparativa entre os metodos, considerando a = 0, b = 2 e n variavel.\n\n");
+    			
+    			printf("\n============================================================================================================\n");
+    			printf("|  n  | Erro relativo Trapezio | Limite Teorico Trapezio | Erro relativo Simpson | Limite Teorico Simpson |");
+    			printf("\n============================================================================================================\n");
+    			for (int i = 0; i < 4; i++) {
+    				
+    				if(i == 0){
+    					printf("|  %d  |", n[i]);
+					} else if (i!=3){
+						printf("|  %d |", n[i]);
+					} else{
+						printf("| %d |", n[i]);
+					}
+					
+    				m4 = obter_m4(a, b);
+    				m2 = obter_m2(a, b);
+    				erro_estimado_simpson = obter_erro_estimado(a, b, (b - a) / n[i], 4, m4);
+    				erro_estimado_trapezio = obter_erro_estimado(a, b, (b - a) / n[i], 2, m2);
+    				
+    				printf("     %.10f%%      |", erro_estimado_trapezio / Iexato * 100);
+    				printf("      %.10f       |", erro_estimado_trapezio);
+    				printf("     %.10f%%     |", erro_estimado_simpson / Iexato * 100);
+    				printf("      %.10f      |", erro_estimado_simpson);
+    				
+    				printf("\n===========================================================================================================\n");
+    				
+				}
+				
+				printf("\n\n");
+				break;
+			}
+    		case 5: {
+    			limpar_tela();
+    			
+    			printf("Obrigado por usar o programa!\n");
+    			printf("Feito com carinho por Evelyn, Henrique e Joao (vulgo, jasper)\n");
+    			printf("Copyright 2026 @ All rights reserved.\n");
+    			
+				break;
+			}
+		}
+	} while (opcao != 5);
+	
+	return 0;
 }
+
+
+
+
