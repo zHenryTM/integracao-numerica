@@ -118,9 +118,13 @@ double integrar_trapezio(double (*g)(double), double a, double b, int n) {
     /* Esta funcao integra numericamente uma funcao f, definida em [a,b], com n
      * subintervalos de tamanho h, utilizando o Metodo do Trapezio Repetido.
 
-     * No intervalo [0,2], a resposta da integral da funcao de teste e: e^2 + 1 = 8.3890560989
+     * No intervalo [a,b], a resposta da integral da funcao de teste e: e^b * (b - 1) - e^a * (a - 1)
      * Validada analiticamente atraves do metodo de integracao por partes. */
 
+	if (n < 1) {
+		printf("n nao pode ser um numero menor que 1.\n\n");
+		exit(1);
+	}
 
     double h = (b - a) / n, somatorio = 0;
 
@@ -137,6 +141,11 @@ double integrar_simpson(double (*g)(double), double a, double b, int n) {
      * No intervalo [0,2], a resposta da integral da funcao de teste e: e^2 + 1 = 8.3890560989
      * Validada analiticamente atraves do metodo de integracao por partes. */
 
+
+	if (n < 1) {
+		printf("n nao pode ser um numero menor que 1.\n\n");
+		exit(1);
+	}
 
     double Is;  // Valor da integral
 
@@ -367,10 +376,10 @@ int main() {
                     erro_estimado_simpson = obter_erro_estimado(a, b, (b - a) / n[i], 4, m4);
                     erro_estimado_trapezio = obter_erro_estimado(a, b, (b - a) / n[i], 2, m2);
 
+                    printf("      %.10f%%       |", obter_erro_real_relativo(integrar_trapezio(f, a, b, n[i])));
                     printf("     %.10f%%      |", erro_estimado_trapezio / Iexato * 100);
-                    printf("      %.10f       |", erro_estimado_trapezio);
+                    printf("      %.10f%%      |", obter_erro_real_relativo(integrar_simpson(f, a, b, n[i])));
                     printf("     %.10f%%     |", erro_estimado_simpson / Iexato * 100);
-                    printf("      %.10f      |", erro_estimado_simpson);
 
                     printf("\n===========================================================================================================\n");
 
